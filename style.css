@@ -1,65 +1,25 @@
-/* ==========================================================================
-   1. 網頁全域元件優化 (捲軸、文字選取)
-   ========================================================================== */
-
-/* 整個捲軸的寬度 */
-::-webkit-scrollbar {
-  width: 8px; /* 讓捲軸變得很細、精緻 */
-}
-
-/* 亮色模式：捲軸底軌的顏色 */
-::-webkit-scrollbar-track {
-  background: transparent; /* 保持透明，不破壞背景 */
-}
-
-/* 亮色模式：滾動條（那根會動的槓槓） */
-::-webkit-scrollbar-thumb {
-  background: #cccccc; /* 預設是優雅的淡灰色 */
-  border-radius: 4px;  /* 讓滾動條兩端變圓弧 */
-}
-
-/* 當滑鼠移到滾動條上時稍微變深 */
-::-webkit-scrollbar-thumb:hover {
-  background: #999999; 
-}
-
-
-/* ==========================================================================
-   2. 作品卡片牆元件 (縮圖裁切、懸浮放大、聚光燈微光)
-   ========================================================================== */
-
-/* 卡片主體樣式：整合所有分散的屬性，確保不打架 */
-.portfolio-card {
-  overflow: hidden; /* 💡 關鍵：確保圖片放大、微光特效超框時會被乖乖隱藏 */
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important; /* 貝茲曲線 */
-}
-
-/* 強制讓卡片裡的圖片框固定高度與裁切 */
+/* 1. 強制讓卡片裡的圖片框固定高度 */
 .portfolio-card img {
   width: 100%;          /* 寬度隨外框滿版 */
-  height: 150px;        /* 固定高度 */
-  object-fit: cover;    /* 自動裁切多餘部分，圖片不變形 */
+  height: 150px;        /* 💡 關鍵：固定高度，你可以自由調整成 200px ~ 300px 之間 */
+  object-fit: cover;    /* 💡 關鍵：自動裁切多餘部分，圖片不變形 */
   object-position: center; /* 讓圖片的中心點留在正中間 */
-  transition: transform 0.5s ease; /* 圖片放大的絲滑度 */
 }
 
-/* 滑鼠移入卡片時：圖片放大 + 卡片浮起 + 內發光微光 */
-.portfolio-card:hover {
-  border-color: rgba(0, 0, 0, 0.15) !important;
-  box-shadow: 
-    0 10px 30px rgba(0, 0, 0, 0.08), 
-    inset 0 0 15px rgba(255, 255, 255, 0.6); /* 內陰影玻璃微光 */
+/* 讓卡片的圖片超框時隱藏 */
+.portfolio-card {
+  overflow: hidden;
+}
+
+/* 讓圖片在滑鼠移入時微微放大 1.05 倍 */
+.portfolio-card img {
+  transition: transform 0.5s ease;
 }
 
 .portfolio-card:hover img {
-  transform: scale(1.05); /* 圖片微放大 1.05 倍 */
+  transform: scale(1.05); /* 💡 圖片微放大，不影響卡片大小 */
 }
 
-
-/* ==========================================================================
-   3. 打字機特效控制 (Typed.js 樣式接管)
-   ========================================================================== */
 
 /* 主視覺副標題極簡樣式 */
 .hero-subtitle {
@@ -69,11 +29,10 @@
   letter-spacing: 1px;
 }
 
-/* 打字機閃爍游標：加上 !important 確保正式環境完全聽話 */
+/* 💡 打字機閃爍游標的 CSS 設定 */
 .typed-cursor {
-  color: #111111 !important;
-  font-weight: 300 !important;
-  display: inline-block;
+  color: #111111;
+  font-weight: 300;
   animation: blink 0.75s infinite;
 }
 
@@ -82,13 +41,9 @@
 }
 
 
-/* ==========================================================================
-   4. 深色模式全面接管 (Dark Mode Overrides)
-   ========================================================================== */
-
-/* 整個網頁大背景與文字變極致黑 */
+/* 當網頁啟動深色模式時的微調 */
 [data-bs-theme="dark"] {
-  background-color: #121212 !important; 
+  background-color: #121212 !important; /* 整個網頁大背景變極致黑 */
 }
 
 [data-bs-theme="dark"] body {
@@ -96,36 +51,14 @@
   color: #e0e0e0;
 }
 
-/* 深色模式下的導覽列：字體強制維持原本的深灰色/黑色 */
-[data-bs-theme="dark"] .navbar .nav-link,
-[data-bs-theme="dark"] .navbar .navbar-brand {
-  color: #2b2b2b !important; 
-}
-
-[data-bs-theme="dark"] .navbar .nav-link:hover {
-  color: #111111 !important; 
-}
-
-/* 深色模式下的卡片外觀與懸浮微光對齊 */
+/* 深色模式下的卡片外觀 */
 [data-bs-theme="dark"] .portfolio-card {
-  background-color: #1e1e1e; 
+  background-color: #1e1e1e; /* 卡片變深灰色 */
   box-shadow: 0 4px 15px rgba(255, 255, 255, 0.02);
 }
 
 [data-bs-theme="dark"] .portfolio-card h5 {
-  color: #ffffff; 
-}
-
-[data-bs-theme="dark"] .portfolio-card:hover {
-  border-color: rgba(255, 255, 255, 0.2) !important;
-  box-shadow: 
-    0 10px 30px rgba(0, 0, 0, 0.5), 
-    inset 0 0 15px rgba(255, 255, 255, 0.05); /* 暗色系內發光 */
-}
-
-/* 深色模式下的打字機游標：強制轉白 */
-[data-bs-theme="dark"] .typed-cursor {
-  color: #ffffff !important; 
+  color: #ffffff; /* 標題變純白 */
 }
 
 /* 深色模式下的頁尾 */
@@ -133,16 +66,88 @@
   background-color: #1a1a1a !important;
 }
 
-/* 深色模式下的網頁捲軸對齊（移到最底部，確保權重最高，成功消滅白邊） */
-[data-bs-theme="dark"]::-webkit-scrollbar-track {
-  background: #121212 !important; 
+/* ==========================================
+   修正深色模式下的細節問題
+   ========================================== */
+
+/* 問題一：強制讓深色模式下的導覽列字體維持黑色 */
+[data-bs-theme="dark"] .navbar .nav-link,
+[data-bs-theme="dark"] .navbar .navbar-brand {
+  color: #2b2b2b !important; /* 強制變回原本的深灰色/黑色 */
 }
 
+/* （選填）如果你希望深色模式下，滑鼠移到導覽列上有懸浮效果，可以加這段 */
+[data-bs-theme="dark"] .navbar .nav-link:hover {
+  color: #111111 !important; /* 滑鼠移上去時變更黑 */
+}
+
+
+/* 問題二：修正打字機游標（槓槓）在深色模式下看不見的問題 */
+[data-bs-theme="dark"] .typed-cursor {
+  color: #ffffff !important; /* 💡 在深色模式下，強制把游標變成純白色 */
+}
+
+/* ==========================================
+   當網頁啟動深色模式時，同步優化捲軸色彩
+   ========================================== */
+
+/* 1. 讓深色模式下的捲軸底軌變成深黑色，消滅突兀的白邊 */
+[data-bs-theme="dark"]::-webkit-scrollbar-track {
+  background: #121212 !important; /* 與你的深色大背景完美融合 */
+}
+
+/* 2. 讓深色模式下的滾動條（槓槓）顏色稍微變亮一些（深灰），方便看清位置 */
 [data-bs-theme="dark"]::-webkit-scrollbar-thumb {
   background: #444444 !important; 
-  border: 2px solid #121212;     
+  border: 2px solid #121212;     /* 運用微邊框製造出精緻的懸浮感 */
 }
 
+/* 3. 當滑鼠移到深色滾動條上時變亮灰色 */
 [data-bs-theme="dark"]::-webkit-scrollbar-thumb:hover {
   background: #666666 !important; 
+}
+
+
+/* 1. 整個捲軸的寬度 */
+::-webkit-scrollbar {
+  width: 8px; /* 💡 讓捲軸變得很細、精緻 */
+}
+
+/* 2. 捲軸底軌的顏色 */
+::-webkit-scrollbar-track {
+  background: transparent; /* 保持透明，不破壞背景 */
+}
+
+/* 3. 滾動條（那根會動的槓槓） */
+::-webkit-scrollbar-thumb {
+  background: #cccccc; /* 預設是優雅的淡灰色 */
+  border-radius: 4px;  /* 讓滾動條兩端變圓弧 */
+}
+
+/* 4. 當滑鼠移到滾動條上時稍微變深 */
+::-webkit-scrollbar-thumb:hover {
+  background: #999999; 
+}
+
+
+/* 讓卡片原本的邊框有一層淡淡的過渡感 */
+.portfolio-card {
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important; /* 💡 使用高級的貝茲曲線，讓浮起律動更優雅 */
+}
+
+/* 💡 當滑鼠移入卡片時，產生絲滑的內陰影光暈與微發光邊框 */
+.portfolio-card:hover {
+  border-color: rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.08), /* 外陰影讓卡片浮起來 */
+    inset 0 0 15px rgba(255, 255, 255, 0.6); /* 內陰影創造玻璃質感的光暈 */
+}
+
+/* 🌙 同步照顧深色模式：深色模式下的發光要變成暗色調 */
+[data-bs-theme="dark"] .portfolio-card:hover {
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.5), 
+    inset 0 0 15px rgba(255, 255, 255, 0.05);
 }
